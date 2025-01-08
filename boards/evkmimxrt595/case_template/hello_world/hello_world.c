@@ -11,6 +11,7 @@
 #include "pin_mux.h"
 #include "clock_config.h"
 #include "board.h"
+#include "fat.h"
 
 /*******************************************************************************
  * Definitions
@@ -40,7 +41,11 @@ int main(void)
     BOARD_BootClockRUN();
     BOARD_InitDebugConsole();
 
+    FAT_MagicStart(0);
+
     PRINTF("hello world.\r\n");
+
+    FAT_MagicPass();
 
     while (1)
     {

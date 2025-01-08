@@ -11,19 +11,13 @@
 #include "board.h"
 #include "fsl_debug_console.h"
 #include "fsl_gpio.h"
+#include "fat.h"
 
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
 #define APP_BOARD_TEST_LED_PORT 0U
 #define APP_BOARD_TEST_LED_PIN  14U
-#define APP_SW_PORT             0U
-#define APP_SW_PIN              10U
-#define APP_SW_STATE_RELEASED         0U
-#define APP_SW_STATE_CONFIRM_PRESSED  1U
-#define APP_SW_STATE_PRESSED          2U
-#define APP_SW_STATE_CONFIRM_RELEASED 3U
-#define APP_SW_FILTER_PERIOD          5
 
 /*******************************************************************************
  * Prototypes
@@ -33,8 +27,6 @@
  * Variables
  ******************************************************************************/
 volatile uint32_t g_systickCounter;
-uint8_t swState = APP_SW_STATE_RELEASED;
-int8_t filter   = -1;
 
 /*******************************************************************************
  * Code
@@ -73,13 +65,14 @@ int main(void)
     BOARD_BootClockRUN();
     BOARD_InitDebugConsole();
 
+    FAT_MagicStart(5);
+
     /* Print a note to terminal. */
     PRINTF("\r\n GPIO Driver example\r\n");
     PRINTF("\r\n The LED is taking turns to shine.\r\n");
 
     /* Init output LED GPIO. */
     GPIO_PortInit(GPIO, APP_BOARD_TEST_LED_PORT);
-    GPIO_PortInit(GPIO, APP_SW_PORT);
     GPIO_PinInit(GPIO, APP_BOARD_TEST_LED_PORT, APP_BOARD_TEST_LED_PIN, &led_config);
     GPIO_PinWrite(GPIO, APP_BOARD_TEST_LED_PORT, APP_BOARD_TEST_LED_PIN, 1);
 
@@ -99,66 +92,11 @@ int main(void)
         }
     }
 
+    FAT_MagicPass();
+
     while (1)
     {
-        port_state = GPIO_PortRead(GPIO, APP_SW_PORT);
-
-        switch (swState)
-        {
-            case APP_SW_STATE_RELEASED:
-                if (!(port_state & (1 << APP_SW_PIN)))
-                {
-                    swState = APP_SW_STATE_CONFIRM_PRESSED;
-                    filter  = APP_SW_FILTER_PERIOD;
-                }
-                break;
-            case APP_SW_STATE_CONFIRM_PRESSED:
-                if (!(port_state & (1 << APP_SW_PIN)))
-                {
-                    if (filter == 0)
-                    {
-                        PRINTF("\r\n Port state: %x\r\n", port_state);
-                        GPIO_PortToggle(GPIO, APP_BOARD_TEST_LED_PORT, 1u << APP_BOARD_TEST_LED_PIN);
-                        swState = APP_SW_STATE_PRESSED;
-                    }
-                    else
-                    {
-                        filter--;
-                    }
-                }
-                else
-                {
-                    swState = APP_SW_STATE_RELEASED;
-                }
-                break;
-            case APP_SW_STATE_PRESSED:
-                if ((port_state & (1 << APP_SW_PIN)))
-                {
-                    swState = APP_SW_STATE_CONFIRM_RELEASED;
-                    filter  = APP_SW_FILTER_PERIOD;
-                }
-                break;
-            case APP_SW_STATE_CONFIRM_RELEASED:
-                if ((port_state & (1 << APP_SW_PIN)))
-                {
-                    if (filter == 0)
-                    {
-                        swState = APP_SW_STATE_RELEASED;
-                    }
-                    else
-                    {
-                        filter--;
-                    }
-                }
-                else
-                {
-                    swState = APP_SW_STATE_PRESSED;
-                }
-                break;
-            default:
-                swState = APP_SW_STATE_RELEASED;
-                break;
-        }
-        SysTick_DelayTicks(1U);
+        GPIO_PortToggle(GPIO, APP_BOARD_TEST_LED_PORT, 1u << APP_BOARD_TEST_LED_PIN);
+        SDK_DelayAtLeastUs(1000000, SystemCoreClock);
     }
 }
