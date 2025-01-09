@@ -57,6 +57,7 @@ int main(void)
     BOARD_ConfigMPU();
     BOARD_InitBootPins();
     BOARD_InitBootClocks();
+    BOARD_InitDebugConsole();
     /* Update the core clock */
     SystemCoreClockUpdate();
 

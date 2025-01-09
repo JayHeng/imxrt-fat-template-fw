@@ -692,7 +692,7 @@
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state></state>
+                    <state>hello_world.srec</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -700,7 +700,7 @@
                 </option>
                 <option>
                     <name>OOCObjCopyEnable</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
             </data>
         </settings>
