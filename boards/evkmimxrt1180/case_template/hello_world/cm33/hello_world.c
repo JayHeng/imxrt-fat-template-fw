@@ -11,6 +11,7 @@
 #include "pin_mux.h"
 #include "clock_config.h"
 #include "board.h"
+#include "fat.h"
 
 #include "fsl_ele_base_api.h"
 /*******************************************************************************
@@ -76,7 +77,11 @@ int main(void)
         }
     }
 
+    FAT_MagicStart(0);
+
     PRINTF("hello world.\r\n");
+
+    FAT_MagicPass();
 
     while (1)
     {

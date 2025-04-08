@@ -8,6 +8,7 @@
 #include "pin_mux.h"
 #include "clock_config.h"
 #include "board.h"
+#include "fat.h"
 
 /*******************************************************************************
  * Definitions
@@ -59,6 +60,8 @@ int main(void)
     /* Update the core clock */
     SystemCoreClockUpdate();
 
+    FAT_MagicStart(5);
+
     /* Set systick reload value to generate 1ms interrupt */
     if (SysTick_Config(SystemCoreClock / 1000U))
     {
@@ -66,6 +69,8 @@ int main(void)
         {
         }
     }
+
+    FAT_MagicPass();
 
     while (1)
     {

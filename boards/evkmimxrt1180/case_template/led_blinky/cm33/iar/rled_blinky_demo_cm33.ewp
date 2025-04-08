@@ -67,7 +67,7 @@
                 </option>
                 <option>
                     <name>RTDescription</name>
-                    <state>0</state>
+                    <state>A compact configuration of the C/C++14 runtime library. No locale interface, C locale, no file descriptor support, no multibytes in printf and scanf, and no hex floats in strtod.</state>
                 </option>
                 <option>
                     <name>OGProductVersion</name>
@@ -104,7 +104,7 @@
                 <option>
                     <name>GBECoreSlave</name>
                     <version>34</version>
-                    <state>58</state>
+                    <state>61</state>
                 </option>
                 <option>
                     <name>OGUseCmsis</name>
@@ -363,6 +363,7 @@
                 <option>
                     <name>CCIncludePath2</name>
                     <state>$PROJ_DIR$/..</state>
+                    <state>$PROJ_DIR$/../../../../../fat_src</state>
                     <state>$PROJ_DIR$/../../../../../../devices/MIMXRT1189/utilities/debug_console_lite</state>
                     <state>$PROJ_DIR$/../../../../../../devices/MIMXRT1189/drivers</state>
                     <state>$PROJ_DIR$/../../../../../../devices/MIMXRT1189</state>
@@ -681,15 +682,15 @@
                 <option>
                     <name>OOCOutputFormat</name>
                     <version>3</version>
-                    <state>3</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>OCOutputOverride</name>
-                    <state>1</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state>$PROJ_FNAME$.bin</state>
+                    <state>rled_blinky_demo_cm33.srec</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -1024,7 +1025,7 @@
                 </option>
                 <option>
                     <name>IlinkTrustzoneImportLibraryOut</name>
-                    <state>###Unitialized###</state>
+                    <state>rled_blinky_demo_cm33_import_lib.o</state>
                 </option>
                 <option>
                     <name>OILinkExtraOption</name>
@@ -1131,7 +1132,7 @@
                 <option>
                     <name>OG_32_64DeviceCoreSlave</name>
                     <version>34</version>
-                    <state>38</state>
+                    <state>61</state>
                 </option>
                 <option>
                     <name>BrowseInfoPath</name>
@@ -1189,7 +1190,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>8.30.2.18207</state>
+                    <state>9.60.2.5384</state>
                 </option>
                 <option>
                     <name>OGChipSelectEditMenu</name>
@@ -1235,7 +1236,7 @@
                 <option>
                     <name>CoreVariant</name>
                     <version>34</version>
-                    <state>58</state>
+                    <state>61</state>
                 </option>
                 <option>
                     <name>GFPUDeviceSlave</name>
@@ -1258,7 +1259,7 @@
                 <option>
                     <name>GFPUCoreSlave2</name>
                     <version>34</version>
-                    <state>58</state>
+                    <state>61</state>
                 </option>
                 <option>
                     <name>OGCMSISPackSelectDevice</name>
@@ -1477,6 +1478,7 @@
                 <option>
                     <name>CCIncludePath2</name>
                     <state>$PROJ_DIR$/..</state>
+                    <state>$PROJ_DIR$/../../../../../fat_src</state>
                     <state>$PROJ_DIR$/../../../../../../devices/MIMXRT1189/utilities/debug_console_lite</state>
                     <state>$PROJ_DIR$/../../../../../../devices/MIMXRT1189/drivers</state>
                     <state>$PROJ_DIR$/../../../../../../devices/MIMXRT1189</state>
@@ -1513,7 +1515,7 @@
                 </option>
                 <option>
                     <name>CCOptLevelSlave</name>
-                    <state>1</state>
+                    <state>3</state>
                 </option>
                 <option>
                     <name>CCPosIndRopi</name>
@@ -1795,15 +1797,15 @@
                 <option>
                     <name>OOCOutputFormat</name>
                     <version>3</version>
-                    <state>3</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>OCOutputOverride</name>
-                    <state>1</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state>$PROJ_FNAME$.bin</state>
+                    <state>rled_blinky_demo_cm33.srec</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -2402,6 +2404,12 @@
     </group>
     <group>
         <name>source</name>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\fat_src\fat.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\fat_src\fat.h</name>
+        </file>
         <file>
             <name>$PROJ_DIR$\..\led_blinky.c</name>
         </file>
