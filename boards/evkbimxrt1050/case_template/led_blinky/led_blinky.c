@@ -10,6 +10,7 @@
 #include "board.h"
 
 #include "system_MIMXRT1052.h"
+#include "fat.h"
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
@@ -56,8 +57,11 @@ int main(void)
     BOARD_ConfigMPU();
     BOARD_InitBootPins();
     BOARD_InitBootClocks();
+    BOARD_InitDebugConsole();
     /* Update the core clock */
     SystemCoreClockUpdate();
+
+    FAT_MagicStart(5);
 
     /* Set systick reload value to generate 1ms interrupt */
     if (SysTick_Config(SystemCoreClock / 1000U))
@@ -66,6 +70,8 @@ int main(void)
         {
         }
     }
+
+    FAT_MagicPass();
 
     while (1)
     {
