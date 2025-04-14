@@ -22,7 +22,6 @@ processor_version: 0.15.9
 
 #include "fsl_common.h"
 #include "fsl_iomuxc.h"
-#include "fsl_rgpio.h"
 #include "pin_mux.h"
 
 /* FUNCTION ************************************************************************************************************
@@ -58,17 +57,6 @@ void BOARD_InitPins(void) {
   CLOCK_EnableClock(kCLOCK_Iomuxc1);          /* Turn on LPCG: LPCG is ON. */
   CLOCK_EnableClock(kCLOCK_Iomuxc2);          /* Turn on LPCG: LPCG is ON. */
 
-  /* GPIO configuration on GPIO_AD_27 (pin M16) */
-  rgpio_pin_config_t gpio4_pinM16_config = {
-      .pinDirection = kRGPIO_DigitalOutput,
-      .outputLogic = 0U,
-  };
-  /* Initialize GPIO functionality on GPIO_AD_27 (pin M16) */
-  RGPIO_PinInit(RGPIO4, 27U, &gpio4_pinM16_config);
-
-  IOMUXC_SetPinMux(
-      IOMUXC_GPIO_AD_27_GPIO4_IO27,           /* GPIO_AD_27 is configured as GPIO4_IO27 */
-      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
       IOMUXC_GPIO_AON_08_LPUART1_TX,          /* GPIO_AON_08 is configured as LPUART1_TX */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */

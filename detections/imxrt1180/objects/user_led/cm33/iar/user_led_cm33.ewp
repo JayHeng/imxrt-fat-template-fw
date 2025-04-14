@@ -242,6 +242,7 @@
                     <state>DEBUG</state>
                     <state>CPU_MIMXRT1189CVM8B_cm33</state>
                     <state>MCUXPRESSO_SDK</state>
+                    <state>SCH_50577_BGA289_EVK</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
@@ -690,7 +691,7 @@
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state>rled_blinky_demo_cm33.srec</state>
+                    <state>user_led_cm33.srec</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -1357,6 +1358,7 @@
                     <state>DEBUG</state>
                     <state>CPU_MIMXRT1189CVM8B_cm33</state>
                     <state>MCUXPRESSO_SDK</state>
+                    <state>SCH_95302_BGA196_FRDM</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
