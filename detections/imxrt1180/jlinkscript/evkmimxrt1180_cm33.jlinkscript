@@ -570,7 +570,7 @@ void CM33_ClearNVIC(void) {
 
 int InitTarget(void)
 {
-    cpuID = _CM7_CPUID;
+    cpuID = _CM33_CPUID;
 
     DAP_Init();
     
