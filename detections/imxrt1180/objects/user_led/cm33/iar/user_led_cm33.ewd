@@ -2,7 +2,7 @@
 <project>
     <fileVersion>4</fileVersion>
     <configuration>
-        <name>debug</name>
+        <name>SCH_50577_BGA289_EVK</name>
         <toolchain>
             <name>ARM</name>
         </toolchain>
@@ -1642,18 +1642,18 @@
         </debuggerPlugins>
     </configuration>
     <configuration>
-        <name>release</name>
+        <name>SCH_95302_BGA196_FRDM</name>
         <toolchain>
             <name>ARM</name>
         </toolchain>
-        <debug>0</debug>
+        <debug>1</debug>
         <settings>
             <name>C-SPY</name>
             <archiveVersion>2</archiveVersion>
             <data>
                 <version>33</version>
                 <wantNonLocal>1</wantNonLocal>
-                <debug>0</debug>
+                <debug>1</debug>
                 <option>
                     <name>OCOverrideSlave</name>
                     <state>0</state>
@@ -1902,7 +1902,7 @@
             <data>
                 <version>1</version>
                 <wantNonLocal>1</wantNonLocal>
-                <debug>0</debug>
+                <debug>1</debug>
                 <option>
                     <name>OCSimDriverInfo</name>
                     <state>1</state>
@@ -1927,7 +1927,7 @@
             <data>
                 <version>0</version>
                 <wantNonLocal>1</wantNonLocal>
-                <debug>0</debug>
+                <debug>1</debug>
                 <option>
                     <name>CCadiMemory</name>
                     <state>1</state>
@@ -1956,7 +1956,7 @@
             <data>
                 <version>4</version>
                 <wantNonLocal>1</wantNonLocal>
-                <debug>0</debug>
+                <debug>1</debug>
                 <option>
                     <name>CatchSFERR</name>
                     <state>1</state>
@@ -2135,7 +2135,7 @@
             <data>
                 <version>0</version>
                 <wantNonLocal>1</wantNonLocal>
-                <debug>0</debug>
+                <debug>1</debug>
                 <option>
                     <name>E2PowerFromProbe</name>
                     <state>1</state>
@@ -2168,7 +2168,7 @@
             <data>
                 <version>0</version>
                 <wantNonLocal>1</wantNonLocal>
-                <debug>0</debug>
+                <debug>1</debug>
                 <option>
                     <name>OCDriverInfo</name>
                     <state>1</state>
@@ -2205,7 +2205,7 @@
             <data>
                 <version>0</version>
                 <wantNonLocal>1</wantNonLocal>
-                <debug>0</debug>
+                <debug>1</debug>
                 <option>
                     <name>OCDriverInfo</name>
                     <state>1</state>
@@ -2226,7 +2226,7 @@
             <data>
                 <version>10</version>
                 <wantNonLocal>1</wantNonLocal>
-                <debug>0</debug>
+                <debug>1</debug>
                 <option>
                     <name>CatchSFERR</name>
                     <state>1</state>
@@ -2512,7 +2512,7 @@
             <data>
                 <version>16</version>
                 <wantNonLocal>1</wantNonLocal>
-                <debug>0</debug>
+                <debug>1</debug>
                 <option>
                     <name>CCCatchSFERR</name>
                     <state>0</state>
@@ -2712,7 +2712,7 @@
             <data>
                 <version>3</version>
                 <wantNonLocal>1</wantNonLocal>
-                <debug>0</debug>
+                <debug>1</debug>
                 <option>
                     <name>OCDriverInfo</name>
                     <state>1</state>
@@ -2758,7 +2758,7 @@
             <data>
                 <version>0</version>
                 <wantNonLocal>1</wantNonLocal>
-                <debug>0</debug>
+                <debug>1</debug>
                 <option>
                     <name>OCDriverInfo</name>
                     <state>1</state>
@@ -2779,7 +2779,7 @@
             <data>
                 <version>3</version>
                 <wantNonLocal>1</wantNonLocal>
-                <debug>0</debug>
+                <debug>1</debug>
                 <option>
                     <name>OCDriverInfo</name>
                     <state>1</state>
@@ -2804,7 +2804,7 @@
             <data>
                 <version>8</version>
                 <wantNonLocal>1</wantNonLocal>
-                <debug>0</debug>
+                <debug>1</debug>
                 <option>
                     <name>OCDriverInfo</name>
                     <state>1</state>
@@ -2936,7 +2936,7 @@
             <data>
                 <version>0</version>
                 <wantNonLocal>1</wantNonLocal>
-                <debug>0</debug>
+                <debug>1</debug>
                 <option>
                     <name>CThirdPartyDriverDll</name>
                     <state>###Uninitialized###</state>
@@ -2961,7 +2961,7 @@
             <data>
                 <version>1</version>
                 <wantNonLocal>1</wantNonLocal>
-                <debug>0</debug>
+                <debug>1</debug>
                 <option>
                     <name>OCDriverInfo</name>
                     <state>1</state>
@@ -3032,7 +3032,7 @@
             <data>
                 <version>9</version>
                 <wantNonLocal>1</wantNonLocal>
-                <debug>0</debug>
+                <debug>1</debug>
                 <option>
                     <name>OCDriverInfo</name>
                     <state>1</state>
