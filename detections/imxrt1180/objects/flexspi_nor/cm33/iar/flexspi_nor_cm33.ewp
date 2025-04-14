@@ -243,6 +243,7 @@
                     <state>FSL_DRIVER_TRANSFER_DOUBLE_WEAK_IRQ=0</state>
                     <state>CPU_MIMXRT1189CVM8B_cm33</state>
                     <state>MCUXPRESSO_SDK</state>
+                    <state>SCH_50577_BGA289_EVK</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
@@ -364,6 +365,7 @@
                 <option>
                     <name>CCIncludePath2</name>
                     <state>$PROJ_DIR$/..</state>
+                    <state>$PROJ_DIR$/../../../../../../templates/fat_src</state>
                     <state>$PROJ_DIR$/../../../../../../devices/MIMXRT1189/utilities/debug_console_lite</state>
                     <state>$PROJ_DIR$/../../../../../../devices/MIMXRT1189/drivers</state>
                     <state>$PROJ_DIR$/../../../../../../devices/MIMXRT1189</state>
@@ -1358,6 +1360,7 @@
                     <state>FSL_DRIVER_TRANSFER_DOUBLE_WEAK_IRQ=0</state>
                     <state>CPU_MIMXRT1189CVM8B_cm33</state>
                     <state>MCUXPRESSO_SDK</state>
+                    <state>SCH_95302_BGA196_FRDM</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
@@ -1479,6 +1482,7 @@
                 <option>
                     <name>CCIncludePath2</name>
                     <state>$PROJ_DIR$/..</state>
+                    <state>$PROJ_DIR$/../../../../../../templates/fat_src</state>
                     <state>$PROJ_DIR$/../../../../../../devices/MIMXRT1189/utilities/debug_console_lite</state>
                     <state>$PROJ_DIR$/../../../../../../devices/MIMXRT1189/drivers</state>
                     <state>$PROJ_DIR$/../../../../../../devices/MIMXRT1189</state>
@@ -2406,6 +2410,12 @@
         <name>source</name>
         <file>
             <name>$PROJ_DIR$\..\app.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\templates\fat_src\fat.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\templates\fat_src\fat.h</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\flexspi_nor.c</name>

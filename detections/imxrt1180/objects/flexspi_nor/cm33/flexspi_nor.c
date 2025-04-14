@@ -34,8 +34,6 @@ static uint8_t s_nor_read_buffer[256];
 extern status_t flexspi_nor_flash_erase_sector(FLEXSPI_Type *base, uint32_t address);
 extern status_t flexspi_nor_flash_page_program(FLEXSPI_Type *base, uint32_t dstAddr, const uint32_t *src);
 extern status_t flexspi_nor_get_vendor_id(FLEXSPI_Type *base, uint8_t *vendorId);
-extern status_t flexspi_nor_enable_quad_mode(FLEXSPI_Type *base);
-extern status_t flexspi_nor_erase_chip(FLEXSPI_Type *base);
 extern void flexspi_nor_flash_init(FLEXSPI_Type *base);
 /*******************************************************************************
  * Code
@@ -52,7 +50,7 @@ flexspi_device_config_t deviceconfig = {
     .enableWordAddress    = 0,
     .AWRSeqIndex          = 0,
     .AWRSeqNumber         = 0,
-    .ARDSeqIndex          = NOR_CMD_LUT_SEQ_IDX_READ_FAST_QUAD,
+    .ARDSeqIndex          = NOR_CMD_LUT_SEQ_IDX_READ_NORMAL,
     .ARDSeqNumber         = 1,
     .AHBWriteWaitUnit     = kFLEXSPI_AhbWriteWaitUnit2AhbCycle,
     .AHBWriteWaitInterval = 0,
@@ -64,18 +62,6 @@ const uint32_t customLUT[CUSTOM_LUT_LENGTH] = {
         FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, 0x03, kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, 0x18),
     [4 * NOR_CMD_LUT_SEQ_IDX_READ_NORMAL + 1] =
         FLEXSPI_LUT_SEQ(kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04, kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
-
-    /* Fast read mode - SDR */
-    [4 * NOR_CMD_LUT_SEQ_IDX_READ_FAST] =
-        FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, 0x0B, kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, 0x18),
-    [4 * NOR_CMD_LUT_SEQ_IDX_READ_FAST + 1] = FLEXSPI_LUT_SEQ(
-        kFLEXSPI_Command_DUMMY_SDR, kFLEXSPI_1PAD, 0x08, kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04),
-
-    /* Fast read quad mode - SDR */
-    [4 * NOR_CMD_LUT_SEQ_IDX_READ_FAST_QUAD] =
-        FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, 0xEB, kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_4PAD, 0x18),
-    [4 * NOR_CMD_LUT_SEQ_IDX_READ_FAST_QUAD + 1] = FLEXSPI_LUT_SEQ(
-        kFLEXSPI_Command_DUMMY_SDR, kFLEXSPI_4PAD, 0x06, kFLEXSPI_Command_READ_SDR, kFLEXSPI_4PAD, 0x04),
 
     /* Write Enable */
     [4 * NOR_CMD_LUT_SEQ_IDX_WRITEENABLE] =
@@ -91,27 +77,13 @@ const uint32_t customLUT[CUSTOM_LUT_LENGTH] = {
     [4 * NOR_CMD_LUT_SEQ_IDX_PAGEPROGRAM_SINGLE + 1] =
         FLEXSPI_LUT_SEQ(kFLEXSPI_Command_WRITE_SDR, kFLEXSPI_1PAD, 0x04, kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
 
-    /* Page Program - quad mode */
-    [4 * NOR_CMD_LUT_SEQ_IDX_PAGEPROGRAM_QUAD] =
-        FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, 0x32, kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, 0x18),
-    [4 * NOR_CMD_LUT_SEQ_IDX_PAGEPROGRAM_QUAD + 1] =
-        FLEXSPI_LUT_SEQ(kFLEXSPI_Command_WRITE_SDR, kFLEXSPI_4PAD, 0x04, kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
-
     /* Read ID */
     [4 * NOR_CMD_LUT_SEQ_IDX_READID] =
         FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, 0x9F, kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04),
 
-    /* Enable Quad mode */
-    [4 * NOR_CMD_LUT_SEQ_IDX_WRITESTATUSREG] =
-        FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, 0x01, kFLEXSPI_Command_WRITE_SDR, kFLEXSPI_1PAD, 0x04),
-
     /* Read status register */
     [4 * NOR_CMD_LUT_SEQ_IDX_READSTATUSREG] =
         FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, 0x05, kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04),
-
-    /* Erase whole chip */
-    [4 * NOR_CMD_LUT_SEQ_IDX_ERASECHIP] =
-        FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, 0xC7, kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
 };
 
 
@@ -137,26 +109,6 @@ int main(void)
         return status;
     }
     PRINTF("Vendor ID: 0x%x\r\n", vendorID);
-
-#if !(defined(XIP_EXTERNAL_FLASH))
-    /* Erase whole chip . */
-    PRINTF("Erasing whole chip over FlexSPI...\r\n");
-
-    status = flexspi_nor_erase_chip(EXAMPLE_FLEXSPI);
-    if (status != kStatus_Success)
-    {
-        return status;
-    }
-    PRINTF("Erase finished !\r\n");
-
-#endif
-
-    /* Enter quad mode. */
-    status = flexspi_nor_enable_quad_mode(EXAMPLE_FLEXSPI);
-    if (status != kStatus_Success)
-    {
-        return status;
-    }
 
     /* Erase sectors. */
     PRINTF("Erasing Serial NOR over FlexSPI...\r\n");
