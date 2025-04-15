@@ -86,30 +86,29 @@ const uint32_t customLUT[CUSTOM_LUT_LENGTH] = {
         FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, 0x05, kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04),
 };
 
-
-int main(void)
+status_t bsp_nor_init(void)
 {
-    uint32_t i = 0;
     status_t status;
     uint8_t vendorID = 0;
 
-    BOARD_ConfigMPU();
-    BOARD_InitBootPins();
-    BOARD_InitBootClocks();
-    BOARD_InitDebugConsole();
-
     flexspi_nor_flash_init(EXAMPLE_FLEXSPI);
 
-    PRINTF("\r\nFLEXSPI example started!\r\n");
+    PRINTF("\r\nFLEXSPI NOR test started!\r\n");
 
     /* Get vendor ID. */
     status = flexspi_nor_get_vendor_id(EXAMPLE_FLEXSPI, &vendorID);
-    if (status != kStatus_Success)
+    if (status == kStatus_Success)
     {
-        return status;
-    }
-    PRINTF("Vendor ID: 0x%x\r\n", vendorID);
+        PRINTF("Vendor ID: 0x%x\r\n", vendorID);
 
+    }
+    return status;
+}
+
+int bsp_nor_rwtest(void)
+{
+    uint32_t i = 0;
+    status_t status;
     /* Erase sectors. */
     PRINTF("Erasing Serial NOR over FlexSPI...\r\n");
     status = flexspi_nor_flash_erase_sector(EXAMPLE_FLEXSPI, EXAMPLE_SECTOR * SECTOR_SIZE);
@@ -123,8 +122,7 @@ int main(void)
 
     DCACHE_InvalidateByRange(EXAMPLE_FLEXSPI_AMBA_BASE + EXAMPLE_SECTOR * SECTOR_SIZE, FLASH_PAGE_SIZE);
 
-    memcpy(s_nor_read_buffer, (void *)(EXAMPLE_FLEXSPI_AMBA_BASE + EXAMPLE_SECTOR * SECTOR_SIZE),
-           sizeof(s_nor_read_buffer));
+    memcpy(s_nor_read_buffer, (void *)(EXAMPLE_FLEXSPI_AMBA_BASE + EXAMPLE_SECTOR * SECTOR_SIZE), sizeof(s_nor_read_buffer));
 
     if (memcmp(s_nor_program_buffer, s_nor_read_buffer, sizeof(s_nor_program_buffer)))
     {
@@ -141,8 +139,7 @@ int main(void)
         s_nor_program_buffer[i] = i;
     }
 
-    status =
-        flexspi_nor_flash_page_program(EXAMPLE_FLEXSPI, EXAMPLE_SECTOR * SECTOR_SIZE, (void *)s_nor_program_buffer);
+    status = flexspi_nor_flash_page_program(EXAMPLE_FLEXSPI, EXAMPLE_SECTOR * SECTOR_SIZE, (void *)s_nor_program_buffer);
     if (status != kStatus_Success)
     {
         PRINTF("Page program failure !\r\n");
@@ -151,8 +148,7 @@ int main(void)
 
     DCACHE_InvalidateByRange(EXAMPLE_FLEXSPI_AMBA_BASE + EXAMPLE_SECTOR * SECTOR_SIZE, FLASH_PAGE_SIZE);
 
-    memcpy(s_nor_read_buffer, (void *)(EXAMPLE_FLEXSPI_AMBA_BASE + EXAMPLE_SECTOR * SECTOR_SIZE),
-           sizeof(s_nor_read_buffer));
+    memcpy(s_nor_read_buffer, (void *)(EXAMPLE_FLEXSPI_AMBA_BASE + EXAMPLE_SECTOR * SECTOR_SIZE), sizeof(s_nor_read_buffer));
 
     if (memcmp(s_nor_read_buffer, s_nor_program_buffer, sizeof(s_nor_program_buffer)) != 0)
     {
@@ -162,6 +158,24 @@ int main(void)
     else
     {
         PRINTF("Program data - successfully. \r\n");
+    }
+    
+    return 0;
+}
+
+
+int main(void)
+{
+    status_t status;
+    BOARD_ConfigMPU();
+    BOARD_InitBootPins();
+    BOARD_InitBootClocks();
+    BOARD_InitDebugConsole();
+
+    status = bsp_nor_init();
+    if (status == kStatus_Success)
+    {
+        bsp_nor_rwtest();
     }
 
     while (1)

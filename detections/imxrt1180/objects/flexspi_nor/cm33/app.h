@@ -28,32 +28,18 @@
 #define NOR_CMD_LUT_SEQ_IDX_ERASESECTOR        3
 #define NOR_CMD_LUT_SEQ_IDX_PAGEPROGRAM_SINGLE 6
 #define NOR_CMD_LUT_SEQ_IDX_READID             8
-#define NOR_CMD_LUT_SEQ_IDX_WRITESTATUSREG     9
 #define NOR_CMD_LUT_SEQ_IDX_READSTATUSREG      12
 
 #define CUSTOM_LUT_LENGTH        60
-#define FLASH_QUAD_ENABLE        0x40
 #define FLASH_BUSY_STATUS_POL    1
 #define FLASH_BUSY_STATUS_OFFSET 0
-
-/*
- * If cache is enabled, this example should maintain the cache to make sure
- * CPU core accesses the memory, not cache only.
- */
-#define CACHE_MAINTAIN 1
 
 /*${macro:end}*/
 
 /*******************************************************************************
  * Variables
  ******************************************************************************/
-/*${variable:start}*/
-typedef struct _flexspi_cache_status
-{
-    volatile bool codeCacheEnableFlag;
-    volatile bool systemCacheEnableFlag;
-} flexspi_cache_status_t;
-/*${variable:end}*/
+
 
 /*******************************************************************************
  * Prototypes
