@@ -16,6 +16,7 @@
 #include "clock_config.h"
 #include "board.h"
 #include "fsl_common.h"
+#include "fat.h"
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
@@ -33,7 +34,7 @@ static uint8_t s_nor_read_buffer[256];
 
 extern status_t flexspi_nor_flash_erase_sector(FLEXSPI_Type *base, uint32_t address);
 extern status_t flexspi_nor_flash_page_program(FLEXSPI_Type *base, uint32_t dstAddr, const uint32_t *src);
-extern status_t flexspi_nor_get_vendor_id(FLEXSPI_Type *base, uint8_t *vendorId);
+extern status_t flexspi_nor_get_vendor_id(FLEXSPI_Type *base, uint16_t *ids);
 extern void flexspi_nor_flash_init(FLEXSPI_Type *base);
 /*******************************************************************************
  * Code
@@ -86,21 +87,32 @@ const uint32_t customLUT[CUSTOM_LUT_LENGTH] = {
         FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, 0x05, kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04),
 };
 
+#if defined(SCH_50577_BGA289_EVK)
+#define NOR_IDS_QSPI (0x80EF)  // W25Q256JW
+#elif defined(SCH_95302_BGA196_FRDM)
+#define NOR_IDS_QSPI (0x60EF)  // W25Q128JV
+#endif
+
 status_t bsp_nor_init(void)
 {
     status_t status;
-    uint8_t vendorID = 0;
+    uint16_t ids = 0;
 
     flexspi_nor_flash_init(EXAMPLE_FLEXSPI);
 
     PRINTF("\r\nFLEXSPI NOR test started!\r\n");
 
-    /* Get vendor ID. */
-    status = flexspi_nor_get_vendor_id(EXAMPLE_FLEXSPI, &vendorID);
+    /* Get JEDEC ID. */
+    status = flexspi_nor_get_vendor_id(EXAMPLE_FLEXSPI, &ids);
     if (status == kStatus_Success)
     {
-        PRINTF("Vendor ID: 0x%x\r\n", vendorID);
-
+        PRINTF("Vendor ID: 0x%x\r\n", ids & 0xFF);
+        PRINTF("Memory ID: 0x%x\r\n", (ids >> 8) & 0xFF);
+        if (ids != NOR_IDS_QSPI)
+        {
+            PRINTF("Incorrect ID, it should be 0x%x\r\n", ids, NOR_IDS_QSPI);
+            return kStatus_Fail;
+        }
     }
     return status;
 }
@@ -171,6 +183,8 @@ int main(void)
     BOARD_InitBootPins();
     BOARD_InitBootClocks();
     BOARD_InitDebugConsole();
+
+    FAT_MagicStart(0);
 
     status = bsp_nor_init();
     if (status == kStatus_Success)
